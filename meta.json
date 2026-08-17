@@ -1,0 +1,22 @@
+{
+  "$schema": "https://dl.viam.dev/module.schema.json",
+  "module_id": "NAMESPACE_TBD:wonder-app",
+  "visibility": "public",
+  "url": "https://github.com/viam-soleng/wonder-app",
+  "description": "Single-machine Viam application for Wonder.",
+  "models": [],
+  "applications": [
+    {
+      "name": "wonder",
+      "type": "single_machine",
+      "entrypoint": "dist/index.html"
+    }
+  ],
+  "entrypoint": "",
+  "first_run": "",
+  "build": {
+    "build": "make module",
+    "arch": ["linux/amd64", "linux/arm64"],
+    "path": "module.tar.gz"
+  }
+}

@@ -1,0 +1,41 @@
+name: Deploy to Viam registry
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm run check
+
+      - name: Build module
+        run: |
+          pnpm run build
+          tar czf module.tar.gz meta.json dist
+
+      - name: Install Viam CLI
+        run: |
+          curl -sL -o viam https://storage.googleapis.com/packages.viam.com/apps/viam-cli/viam-cli-stable-linux-amd64
+          chmod +x viam
+          sudo mv viam /usr/local/bin/
+
+      - name: Upload module
+        run: |
+          viam login api-key --key-id "${{ secrets.VIAM_API_KEY_ID }}" --key "${{ secrets.VIAM_API_KEY }}"
+          viam module upload --upload module.tar.gz --platform any --version "${GITHUB_REF_NAME}"
