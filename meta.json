@@ -1,13 +1,13 @@
 {
   "$schema": "https://dl.viam.dev/module.schema.json",
-  "module_id": "NAMESPACE_TBD:wonder-app",
+  "module_id": "wondergroup:wonder-app",
   "visibility": "public",
   "url": "https://github.com/viam-soleng/wonder-app",
   "description": "Single-machine Viam application for Wonder.",
   "models": [],
   "applications": [
     {
-      "name": "wonder",
+      "name": "monitor",
       "type": "single_machine",
       "entrypoint": "dist/index.html"
     }
